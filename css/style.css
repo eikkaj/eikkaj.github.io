@@ -107,8 +107,8 @@ a {
 }
 #about {
 	width: 968px;
-	min-height:380px;
-	height:75%;
+	min-height:400px;
+	height:50%;
     margin-right: auto;
     margin-left: auto;
     margin-top: 0px;
@@ -119,8 +119,8 @@ a {
 }
 #contact {
 	width: 968px;
-	min-height:380px;
-	height:75%;
+	min-height:400px;
+	height:50%;
     margin-right: auto;
     margin-left: auto;
     margin-top: 0px;
@@ -152,7 +152,7 @@ a {
 .content-title {
 	font-size:18px;
 }
-.contact-title {
+.contact-content {
 	font-size:32px;
 }
 .about-content {
