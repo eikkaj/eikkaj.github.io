@@ -1,68 +1,161 @@
-/*  ==========================================================================
-    RESET / DEFAULTS
-    ========================================================================== */
-
-/*  normalize.css - https://github.com/necolas/normalize.css  */
-article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block;}audio,canvas,video{display:inline;zoom:1;}html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}body,button,input,select,textarea{font-family:sans-serif;}a{color:#00e;}a:visited{color:#551a8b;}a:focus{outline:none;}a:hover,a:active{outline:0;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}blockquote{margin:1em 40px;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}pre,code,kbd,samp{font-family:monospace, serif;_font-family:'courier new', monospace;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:none;}q:before,q:after{content:none;}small{font-size:75%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}ul,ol{margin:1em 0;padding:0 0 0 40px;}dd{margin:0 0 0 40px;}nav ul,nav ol{list-style:none;list-style-image:none;}img{border:0;-ms-interpolation-mode:bicubic;}svg:not(:root){overflow:hidden;}fieldset{margin:0 2px;padding:.35em .625em .75em;}legend{border:0;margin-left:-7px;}button,input,select,textarea{font-size:100%;vertical-align:middle;margin:0;}button,input{line-height:normal;overflow:visible;}table button,table input{overflow:auto;}button,html input[type=button],input[type=reset],input[type=submit]{cursor:pointer;-webkit-appearance:button;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}audio:not([controls]),[hidden]{display:none;}body,figure,form{margin:0;}
-
-/* apply a natural box layout model to all elements - http://paulirish.com/2012/box-sizing-border-box-ftw/ */
-/* border-box polyfill for IE 6/7:https://github.com/Schepp/box-sizing-polyfill#readme  */
-* { -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box; *behavior:url(boxsizing.htc); }
-
-
-/*  ==========================================================================
-    PRIMARY STYLES
-    ========================================================================== */
-
-body { background:#FFED91; text-align: center; line-height: 1.4; font-size:16px; color: #221105; font-family: Georgia, sans-serif;}
-
-a, a:visited { color:#333; cursor: pointer; font-style:italic; }
-a:hover { color:#000; }
-a:focus, a:hover, a:active { outline:0; }
-
-.wrapper { padding:20px 50px 80px; width:900px; margin:0 auto; }
-
-header { margin:0; padding-bottom: 40px; text-align:center; border-bottom:solid 8px #FFD29C;}
-header h2 { margin: 20px auto; font-size:1.4em; }
-header h2 a, header h2 a:visited { color: #777; font-style: normal; }
-section {border-bottom:solid 8px #FFD29C; padding-top: 40px;}
-h1,h2,h3,h4,h5,h6 { font-weight: normal; font-family: sans-serif; }
-h1 { font-size: 5em; margin: 0;  line-height: 1; }
-h2 { font-size:2.4em; margin: 0; color: #999; }
-h3 { font-size:2em; margin: 0 0 10px; }
-h4 { font-size:1.4em; color: #aaa; }
-h4, p { margin:0; padding: 0;}
-.repo { margin: 20px 0 40px; }
-.repo-image {
-  border: 1px solid #DDD;
-  padding: 6px;
-  background: #FFD29C;
+html, body {
+    height: 100%;
+    font-family: Helvetica,arial,sans-serif;
+    display: block;
+    color: #161616;
+    background-color: #f2f2f2;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 20px;
+    margin-left: 0;
 }
-.repo-link {
-  font-weight:bold;
-  display: block;
-  padding: 5px;
-  color: #999;
+a {
+	text-decoration:none;
+	color:#111;
 }
-
-
-
-
-/*  ==========================================================================
-    PRINT
-    ========================================================================== */
-
-@media print {
-  * { background:transparent !important; color:black !important; box-shadow:none !important; text-shadow:none !important; filter:none !important; -ms-filter:none !important; } /* Black prints faster:h5bp.com/s */
-  a, a:visited { text-decoration:underline; }
-  a[href]:after { content:" (" attr(href) ")"; }
-  abbr[title]:after { content:" (" attr(title) ")"; }
-  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content:""; }  /* Don't show links for images, or javascript/internal links */
-  pre, blockquote { border:1px solid #999; page-break-inside:avoid; }
-  thead { display:table-header-group; } /* h5bp.com/t */
-  tr, img { page-break-inside:avoid; }
-  img { max-width:100% !important; }
-  @page { margin:0.5cm; }
-  p, h2, h3 { orphans:3; widows:3; }
-  h2, h3 { page-break-after:avoid; }
+.wrapper {
+	width: 968px;
+	min-height:380px;
+	height:75%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    position: relative;
+	background-color: #f2f2f2;
+}
+#header {     
+	width: 968px;
+    position: relative;
+    margin-top: 100px;
+}
+#title {
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #161616;
+	font-size: 68px;
+    font-weight: lighter;
+	font-family: 'Architects Daughter', cursive;
+}
+#bar {
+    height: 24px;
+    margin-top: 4px;
+    background-color: #FFA600;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #161616;
+}
+#subsections {
+	width: 968px;
+    position: relative;
+}
+.sub-left {
+    width: 160px;
+	height:200px;
+    float: left;
+    margin-top: 60px;
+}
+.sub {
+    width: 160px;
+	height:200px;
+    float: left;
+    margin-top: 59px;
+    margin-left: 39px;
+    margin-bottom: 45px;
+    padding: 1px;
+}
+.sub:hover, .sub-left:hover {
+	background-color: #FAE8C8;
+}
+.sub-title {
+    text-transform: uppercase;
+    font-size: 28px;
+    font-weight: bold;
+	font-family: 'Architects Daughter', cursive;
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
+    border-bottom-color: #000;
+    margin-bottom: 3px;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-left: 2px;
+}
+.sub-text {
+    line-height: 20px;
+    font-size: 14px;
+    border-top-width: 12px;
+    border-top-style: solid;
+    border-top-color: #FFA600;
+    margin: 0px;
+    font-family: Georgia,"Times New Roman",Times,serif;
+    font-style: italic;
+}
+.sub-bar {
+    display: block;
+    padding: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    border-top-width: 1px;
+    border-top-style: dotted;
+    border-top-color: #161616;
+}
+#about {
+	width: 968px;
+	min-height:380px;
+	height:75%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    position: relative;
+	background-color: #f2f2f2;
+}
+#contact {
+	width: 968px;
+	min-height:380px;
+	height:75%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    position: relative;
+	background-color: #f2f2f2;
+}
+#section-divider {
+	height: 100px;
+	border-bottom: solid 20px #161616;
+}
+#section-divider-2 {
+	border-bottom: solid 20px #FFA600;
+	margin-bottom:10px;
+}
+.jackie-picture {
+	border: solid 5px #161616;
+	margin-right: 5px;
+	height: 400px;
+	float:left;
+}
+.jackie-picture-contact {
+	border: solid 5px #161616;
+	margin-right: 5px;
+	height: 475px;
+	float:right;
+}
+.content-title {
+	font-size:18px;
+}
+.contact-title {
+	font-size:32px;
+}
+.about-content {
+	font-size:13px;
+	font-style:italic;
 }
