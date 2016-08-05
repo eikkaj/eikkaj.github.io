@@ -159,3 +159,31 @@ a {
 	font-size:13px;
 	font-style:italic;
 }
+#photos {
+	width: 968px;
+	min-height: 400px;
+	height: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 0px;
+	position: relative;
+	background-color: #f2f2f2;
+}
+.ph {
+	width:300px;
+	height:150px;
+}
+.modal-photo {
+	max-height:400px;
+	max-width:600px;
+}
+.modal-ph {
+	min-height:400px;
+	min-width:650px;
+}
+#see-more {
+	font-size: 13px;
+ 	font-style: italic;
+}
