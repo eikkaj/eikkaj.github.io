@@ -16,8 +16,8 @@ html {
 }
 
 body {
-	background: $white;
-  font: 18px/1.4 $helvetica;
+	background: #ffffff;
+  font: 18px/1.4;
   color: $darkGray;
 }
 
@@ -29,8 +29,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
-  color: $darkerGray;
+  color: grey;
   font-weight: bold;
 
   line-height: 1.7;
@@ -59,7 +58,7 @@ h3 {
 
 h4 {
   font-size: 18px;
-  color: $gray;
+  color: grey;
 }
 
 p {
@@ -67,11 +66,11 @@ p {
 }
 
 a {
-  color: $blue;
+  color: blue;
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
-    color: $blue;
+    color: blue;
   }
 }
 
@@ -115,17 +114,17 @@ img {
 
 .date {
   font-style: italic;
-  color: $gray;
+  color: grey;
 }
 
 // Specify the color of the selection
 ::-moz-selection {
-  color: $black;
-  background: $lightGray;
+  color: #111111;
+  background: grey;
 }
 ::selection {
-  color: $black;
-  background: $lightGray;
+  color: #111111;
+  background: grey;
 }
 
 // Nicolas Gallagher's micro clearfix hack
@@ -154,7 +153,7 @@ img {
 
 .masthead {
   padding: 20px 0;
-  border-bottom: 1px solid $lightGray;
+  border-bottom: 1px solid grey;
 
   @include mobile {
     text-align: center;
@@ -190,9 +189,8 @@ img {
 
 .site-name {
   margin: 0;
-  color: $darkGray;
+  color: grey;
   cursor: pointer;
-  font-family: $helveticaNeue;
   font-weight: 300;
   font-size: 28px;
   letter-spacing: 1px;
@@ -200,7 +198,7 @@ img {
 
 .site-description {
   margin: -5px 0 0 0;
-  color: $gray;
+  color: grey;
   font-size: 16px;
 
   @include mobile {
@@ -211,7 +209,6 @@ img {
 nav {
   float: right;
   margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
   font-size: 18px;
 
   @include mobile {
@@ -223,7 +220,7 @@ nav {
 
   a {
     margin-left: 20px;
-    color: $darkGray;
+    color: grey;
     text-align: right;
     font-weight: 300;
     letter-spacing: 1px;
@@ -241,7 +238,7 @@ nav {
 
 .posts > .post {
   padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
+  border-bottom: 1px solid grey;
 }
 
 .posts > .post:last-child {
@@ -252,9 +249,9 @@ nav {
 .post {
   blockquote {
     margin: 1.8em .8em;
-    border-left: 2px solid $gray;
+    border-left: 2px solid grey;
     padding: 0.1em 1em;
-    color: $gray;
+    color: grey;
     font-size: 22px;
     font-style: italic;
   }
@@ -273,7 +270,7 @@ nav {
   margin-top: 50px;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  background-color: grey;
 }
 
 footer {
