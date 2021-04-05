@@ -182,10 +182,6 @@ img {
   margin: -5px 0 0 0;
   color: grey;
   font-size: 16px;
-
-  @include mobile {
-    margin: 3px 0;
-  }
 }
 
 nav {
