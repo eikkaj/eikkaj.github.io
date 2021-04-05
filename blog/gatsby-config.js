@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: "/blog",
   plugins: [
     {
       resolve: `gatsby-theme-blog`,
@@ -7,7 +8,7 @@ module.exports = {
   ],
   // Customize your site metadata:
   siteMetadata: {
-    title: `dev rantings`,
+    title: `Jackie Sweet's Blog`,
     author: `Jackie Sweet`,
     description: `thoughts and rantings about code and beyond`,
     social: [
