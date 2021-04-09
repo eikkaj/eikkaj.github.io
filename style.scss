@@ -16,7 +16,7 @@ html {
 }
 
 body {
-	background: #ffffff;
+	background: #dee2e6;
   font: 18px/1.4;
   color: grey;
 }
@@ -148,9 +148,17 @@ img {
 }
 
 .masthead {
-  padding: 20px 0;
-  border-bottom: 1px solid grey;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #eee;
 
+}
+
+.masthead-title {
+      margin-top: 0;
+    margin-bottom: 0;
+    color: #505050;
 }
 
 .site-avatar {
