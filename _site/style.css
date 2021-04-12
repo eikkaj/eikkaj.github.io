@@ -1,0 +1,222 @@
+/**************/
+/* BASE RULES */
+/**************/
+html {
+  font-size: 100%;
+}
+
+body {
+  background: #dee2e6;
+  font: 18px/1.4;
+  color: grey;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 740px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: grey;
+  font-weight: bold;
+  line-height: 1.7;
+  margin: 1em 0 15px;
+  padding: 0;
+}
+
+h1 {
+  font-size: 30px;
+}
+h1 a {
+  color: inherit;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 18px;
+  color: grey;
+}
+
+p {
+  margin: 15px 0;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+}
+a:hover, a:active {
+  color: blue;
+}
+
+ul, ol {
+  margin: 15px 0;
+  padding-left: 30px;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+ol ul, ul ol, ul ul, ol ol {
+  margin: 0;
+}
+
+ul ul, ol ul {
+  list-style-type: circle;
+}
+
+em, i {
+  font-style: italic;
+}
+
+strong, b {
+  font-weight: bold;
+}
+
+img {
+  max-width: 100%;
+}
+
+.gmnoprint img {
+  max-width: none;
+}
+
+.date {
+  font-style: italic;
+  color: grey;
+}
+
+::-moz-selection {
+  color: #111111;
+  background: grey;
+}
+
+::selection {
+  color: #111111;
+  background: grey;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*********************/
+/* LAYOUT / SECTIONS */
+/*********************/
+.wrapper-masthead {
+  margin-bottom: 50px;
+}
+
+.masthead {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #eee;
+}
+
+.masthead-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #505050;
+}
+
+.site-avatar {
+  float: left;
+  width: 70px;
+  height: 70px;
+  margin-right: 15px;
+}
+.site-avatar img {
+  border-radius: 5px;
+}
+
+.site-info {
+  float: left;
+}
+
+.site-name {
+  margin: 0;
+  color: grey;
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+.site-description {
+  margin: -5px 0 0 0;
+  color: grey;
+  font-size: 16px;
+}
+
+nav {
+  float: right;
+  margin-top: 23px;
+  font-size: 18px;
+}
+nav a {
+  margin-left: 20px;
+  color: grey;
+  text-align: right;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.posts > .post {
+  padding-bottom: 2em;
+  border-bottom: 1px solid grey;
+}
+
+.posts > .post:last-child {
+  padding-bottom: 1em;
+  border-bottom: none;
+}
+
+.post blockquote {
+  margin: 1.8em .8em;
+  border-left: 2px solid grey;
+  padding: 0.1em 1em;
+  color: grey;
+  font-size: 22px;
+  font-style: italic;
+}
+.post .comments {
+  margin-top: 10px;
+}
+.post .read-more {
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+.wrapper-footer {
+  margin-top: 50px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background-color: grey;
+}
+
+footer {
+  padding: 20px 0;
+  text-align: center;
+}
