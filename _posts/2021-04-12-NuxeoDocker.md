@@ -10,13 +10,13 @@ As a long time Nuxeo developer, I've run Nuxeo across a lot of different mediums
 Since I started writing this first blog post, I've learned a lot of things that will be shaping the following posts in this series. To start, Nuxeo has recently published official documentation for creating a custom Docker image to run with Nuxeo LTS 2021. Please see the documentation here: ![Build a custom Docker Image](https://doc.nuxeo.com/nxdoc/build-a-custom-docker-image/#installing-nuxeo-packages). In addition to that, I've also learned that there have been folks working feverishly to produce a Containerized Development Environment for folks to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more. 
 
 For folks less familiar with Docker or with Nuxeo & Dodkcer, here is some pre-blog post reading for you.
-![Check out this University Course for how to get started with the Nuxeo Platform](https://university.nuxeo.com/learn/course/143/play/395/nuxeo-platform-quickstart-installation-concepts)
-![Check out this documentation for how to install Nuxeo with Docker](https://doc.nuxeo.com/nxdoc/docker-image/)
-![Check out our Docker Usage Best Practices as part of the Nuxeo Core Developer Guide](https://doc.nuxeo.com/corg/docker-usage/)
-![Check out Nuxeo's nuxeo-tools-docker repo which contains some misc Docker files that are used internally - this is a working repo and not officially supported](https://github.com/nuxeo/nuxeo-tools-docker)
-![Check  out the docker-library Nuxeo doc](https://github.com/docker-library/docs/tree/master/nuxeo)
-![Check out the git repo which contains Nuxeo's official Docker images](https://github.com/nuxeo/docker-nuxeo)
-![Docker docs](https://docs.docker.com/)
+[Check out this University Course for how to get started with the Nuxeo Platform](https://university.nuxeo.com/learn/course/143/play/395/nuxeo-platform-quickstart-installation-concepts)
+[Check out this documentation for how to install Nuxeo with Docker](https://doc.nuxeo.com/nxdoc/docker-image/)
+[Check out our Docker Usage Best Practices as part of the Nuxeo Core Developer Guide](https://doc.nuxeo.com/corg/docker-usage/)
+[Check out Nuxeo's nuxeo-tools-docker repo which contains some misc Docker files that are used internally - this is a working repo and not officially supported](https://github.com/nuxeo/nuxeo-tools-docker)
+[Check  out the docker-library Nuxeo doc](https://github.com/docker-library/docs/tree/master/nuxeo)
+[Check out the git repo which contains Nuxeo's official Docker images](https://github.com/nuxeo/docker-nuxeo)
+[Docker docs](https://docs.docker.com/)
 
 
 In the following example, I'm going to be working with my custom marketplace package for customer `XYZ`. I want to provide `XYZ` with a marketplace package that will be usable on Nuxeo LTS 2019. This means that my marketplace package should be built to be compatible with LTS 2019 and my dev environment, which will be utilizing Docker, should be deploying LTS 2019. To deploy my custom marketplace package on a dev server running in docker, I need to create a custom Dockerfile which will first pull down the Nuxeo LTS 2019 image and then deploy my custom MP, and presumably any other packages my server may require (like Nuxeo Drive, Nuxeo Web UI, etc). 
@@ -56,16 +56,22 @@ https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh
 
 Let's download this script to make our lives easier. I'vedownload it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.
 
-`USER root
+```
+USER root
 COPY install-packages.sh /
-RUN chmod g+rwx,o+rx /install-packages.sh`
+RUN chmod g+rwx,o+rx /install-packages.sh
+```
 
 Next I'm going to create a `packages` directory in the root directory of my Dockerfile. Then, I will copy my local mp here so that Docker can access it and install it. Then we can use the script to install the local package. The copying and installation can be set programatically in the Dockerfile:
-`COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip
-$NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip`
+```
+COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip
+$NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+```
 
-`RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-User 900`
+```
+RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+User 900
+```
 
 You’ll notice I change the current user to 900 after taking care of the installation business. 900 is the recommended user per Nuxeo best practices with Docker.
 
@@ -73,12 +79,13 @@ In the case of installing a remote package from the marketplace, things are even
 `RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive`
 
 Note that in order to pass the CLID and CONNECT_URL, we should update the top of the Dockerfile to expect these arguments.
-`ARG CLID
+```
+ARG CLID
 ARG CONNECT_URL
-`
+```
 
 Here’s my full Dockerfile so far:
-`
+```
 ARG NUXEO_VERSION
 FROM nuxeo:${NUXEO_VERSION}
 ARG CLID
@@ -96,21 +103,24 @@ RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-u
 User 900
 We can simplify our run commands by combining local and remote package installation. For example:
 RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-`
+```
 
 What about adding custom configuration to the nuxeo.conf file? We already know that in the Docker image, the nuxeo.conf file is located in /etc/nuxeo. NUXEO_CONF is set to /etc/nuxeo/nuxeo.conf .  We can add additional configuration by mounting new property files as volumes into the /etc/nuxeo/conf.d directory and each file will then be appended to the nuxeo.conf . This means we can add to our Dockerfile something like this:
-COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties
+`COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties`
 
 It’s really common for folks to use FFmpeg for lots of things in Nuxeo. It isn’t included in the Docker Nuxeo image but we can easily install the RPM Fusion version in our custom image. We have to run the install as root, just remember to set the user back to 900 after.
 
-`USER root
+```
+USER root
 RUN yum -y localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
 RUN yum -y install ffmpeg
-USER 900`
+USER 900
+```
 
 Here’s my sample Dockerfile that builds a custom image based on Nuxeo 10.10! Enjoy
 
-`ARG NUXEO_VERSION
+```
+ARG NUXEO_VERSION
 FROM nuxeo:${NUXEO_VERSION}
 ARG CLID
 ARG CONNECT_URL
@@ -128,4 +138,9 @@ COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.pro
 RUN yum -y localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
 RUN yum -y install ffmpeg
 User 900
-`
+```
+
+Coming next:
+- docker-compose
+- creating a test suite for docker-based dev environments
+- containerized development environments
