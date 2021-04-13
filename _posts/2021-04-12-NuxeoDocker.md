@@ -7,14 +7,22 @@ Hey all, this will be the first post of a series of posts related to working wit
 
 As a long time Nuxeo developer, I've run Nuxeo across a lot of different mediums, including an attempt on an old RPI once, but that's for another blog post at a future date. Admittedly, for the vast majority of my tenure at Nuxeo, I haven't worked all that much with our Docker images. Most recently, I've begun to change this and have decided to create a series of blog posts related to my experience getting a dev environment up and running with Docker. Utilizing docker can simplify a dev environment quite significantly, as is turns out, and has potential to be a lot more stable. Nuxeo as a company has been working towards providing a more seamless way to get devs up and running from the start, and in order to accomplish this, there's been a lot of investment in building Docker images and dev containers. I'm really excited to finally be taking the time to learn more about Docker and I hope my experiences here may help folks get their environments up and running more easily. 
 
-Since I started writing this first blog post, I've learned a lot of things that will be shaping the following posts in this series. To start, Nuxeo has recently published official documentation for creating a custom Docker image to run with Nuxeo LTS 2021. Please see the documentation here: ![Build a custom Docker Image](https://doc.nuxeo.com/nxdoc/build-a-custom-docker-image/#installing-nuxeo-packages). In addition to that, I've also learned that there have been folks working feverishly to produce a Containerized Development Environment for folks to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more. 
+Since I started writing this first blog post, I've learned a lot of things that will be shaping the following posts in this series. To start, Nuxeo has recently published official documentation for creating a custom Docker image to run with Nuxeo LTS 2021. Please see the documentation here: [Build a custom Docker Image](https://doc.nuxeo.com/nxdoc/build-a-custom-docker-image/#installing-nuxeo-packages). 
 
-For folks less familiar with Docker or with Nuxeo & Dodkcer, here is some pre-blog post reading for you.
+In addition to that, I've also learned that there have been folks working feverishly to produce a Containerized Development Environment for folks to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more. 
+
+For folks less familiar with Docker or with Nuxeo & Docker, here is some pre-blog post reading for you.
+
 [Check out this University Course for how to get started with the Nuxeo Platform](https://university.nuxeo.com/learn/course/143/play/395/nuxeo-platform-quickstart-installation-concepts)
+
 [Check out this documentation for how to install Nuxeo with Docker](https://doc.nuxeo.com/nxdoc/docker-image/)
+
 [Check out our Docker Usage Best Practices as part of the Nuxeo Core Developer Guide](https://doc.nuxeo.com/corg/docker-usage/)
+
 [Check out Nuxeo's nuxeo-tools-docker repo which contains some misc Docker files that are used internally - this is a working repo and not officially supported](https://github.com/nuxeo/nuxeo-tools-docker)
+
 [Check  out the docker-library Nuxeo doc](https://github.com/docker-library/docs/tree/master/nuxeo)
+
 [Check out the git repo which contains Nuxeo's official Docker images](https://github.com/nuxeo/docker-nuxeo)
 [Docker docs](https://docs.docker.com/)
 
