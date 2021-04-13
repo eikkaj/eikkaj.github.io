@@ -1,1 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2021-04-12T09:47:12-04:00</updated><id>http://localhost:4000/blog/feed.xml</id><title type="html">Jackie Sweet’s Blog</title><subtitle>java dev interested in cloud, microservices, nuxeo</subtitle><entry><title type="html">Welcome to my blog!</title><link href="http://localhost:4000/blog/Hello-World/" rel="alternate" type="text/html" title="Welcome to my blog!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/blog/Hello-World</id><content type="html" xml:base="http://localhost:4000/blog/Hello-World/">&lt;p&gt;I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!</summary></entry></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2021-04-13T09:40:48-04:00</updated><id>http://localhost:4000/blog/feed.xml</id><title type="html">Jackie Sweet’s Blog</title><subtitle>java dev interested in cloud, microservices, nuxeo</subtitle><entry><title type="html">Using Docker in a Dev Environment with Nuxeo</title><link href="http://localhost:4000/blog/NuxeoDocker/" rel="alternate" type="text/html" title="Using Docker in a Dev Environment with Nuxeo" /><published>2021-04-12T00:00:00-04:00</published><updated>2021-04-12T00:00:00-04:00</updated><id>http://localhost:4000/blog/NuxeoDocker</id><content type="html" xml:base="http://localhost:4000/blog/NuxeoDocker/">&lt;p&gt;The following is my first real post as a Developer Advocate with Nuxeo!&lt;/p&gt;
+
+&lt;p&gt;As a long time Nuxeo developer, I’ve run Nuxeo across a lot of different mediums, including an attempt on an old RPI once, but that’s for another blog post at a future date. During my time in Professional Services, it wasn’t uncommon to have to use different computers for development. Preferably, I would use my Nuxeo laptop which happens to be a Mac, but often times I would be provisioned an old Windows laptop (no offense, Microsoft), and frankly, they’re a huge pain to setup Nuxeo with. Admittedly, for most of my tenure in PS, I didn’t ever take advantage of the Nuxeo docker image that our dev team created. But once I started playing around with docker, I realized setting up a dev environment can be much simpler and is definitely the way to go. Digging through the documentation can be a little confusing so I’ve decided to share my experience here, in case anyone is interested in setting up their dev environment using Nuxeo LTS 2019 and Docker.&lt;/p&gt;
+
+&lt;p&gt;In the following example, I’m going to be working with my custom marketplace package for customer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XYZ&lt;/code&gt;. I want to provide &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XYZ&lt;/code&gt; with a marketplace package that will be usable on Nuxeo LTS 2019. This means that my marketplace package should be built to be compatible with LTS 2019 and my dev environment, which will be utilizing Docker, should be deploying LTS 2019. To deploy my custom marketplace package on a dev docker server, I need to create a custom Dockerfile which will first pull down the Nuxeo LTS 2019 image and then deploy my custom MP, and presumably any other packages my server may require (like Nuxeo Drive, Nuxeo Web UI, etc).&lt;/p&gt;
+
+&lt;p&gt;I have a couple local repos set up, one is my custom MP and the next is where my Dockerfile will be.&lt;/p&gt;
+
+&lt;p&gt;Let’s start with the new Dockerfile. I’m going to add this as the first line:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FROM nuxeo:10.10&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;With just this in place, I can now run a build that will create a Nuxeo app using Nuxeo 10.10 (LTS 2019), in this case I’ll build with:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker build -t xyzDAMapplication .&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Improving upon this very basic build, we could make the Nuxeo base image configurable by updating my Dockerfile to:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARG NUXEO_VERSION
+FROM nuxeo:${NUXEO_VERSION}&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;and now when I build, I can specify what version of Nuxeo to use:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker build -t xyzDAMapplication --build-arg NUXEO_VERSION=10.10&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now that I can build an LTS 2019 app with Docker for my dev environment, I want to deploy the server with my custom marketplace package, so I can, of course, continue local development and so on. When using a tomcat server, I would normally just stop the server and manually install the marketplace package using the nuxeoctl script inside of the the Tomcat server &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bin&lt;/code&gt; directory. 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeoctl mp-install xyzMPlocal.zip&lt;/code&gt; or
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeoctl mp-install xyzMPonNuxeoConnect:version&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;As of LTS 2021, Nuxeo provides a nice install script that we can use to install packages. The script takes parameters such as the CLID and URL when we want to install remove packages from the marketplace. See here:&lt;/p&gt;
+
+&lt;p&gt;https://github.com/nuxeo/nuxeo/tree/master/docker
+and 
+https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh&lt;/p&gt;
+
+&lt;p&gt;Let’s download this script to make our lives easier. I’vedownload it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;USER root
+COPY install-packages.sh /
+RUN chmod g+rwx,o+rx /install-packages.sh&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Next I’m going to create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;packages&lt;/code&gt; directory in the root directory of my Dockerfile. Then, I will copy my local mp here so that Docker can access it and install it. Then we can use the script to install the local package. The copying and installation can be set programatically in the Dockerfile:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip
+$NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+User 900&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;You’ll notice I change the current user to 900 after taking care of the installation business. 900 is the recommended user per Nuxeo best practices with Docker.&lt;/p&gt;
+
+&lt;p&gt;In the case of installing a remote package from the marketplace, things are even simpler.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that in order to pass the CLID and CONNECT_URL, we should update the top of the Dockerfile to expect these arguments.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARG CLID
+ARG CONNECT_URL
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s my full Dockerfile so far:
+`
+ARG NUXEO_VERSION
+FROM nuxeo:${NUXEO_VERSION}
+ARG CLID
+ARG CONNECT_URL
+USER root
+COPY install-packages.sh /
+RUN chmod g+rwx,o+rx /install-packages.sh&lt;/p&gt;
+&lt;h1 id=&quot;install-local-package-of-nuxeo-jsf-ui&quot;&gt;Install local package of Nuxeo JSF UI&lt;/h1&gt;
+&lt;p&gt;COPY –chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+RUN /install-packages.sh –offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip&lt;/p&gt;
+&lt;h1 id=&quot;install-remote-package-of-nuxeo-webui-and-nuxeo-drive&quot;&gt;Install remote package of Nuxeo WebUI and Nuxeo Drive&lt;/h1&gt;
+&lt;p&gt;RUN /install-packages.sh –clid ${CLID} –connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive&lt;/p&gt;
+&lt;h1 id=&quot;cleanup&quot;&gt;Cleanup&lt;/h1&gt;
+&lt;p&gt;#RUN rm -rf $NUXEO_HOME/local-packages
+User 900
+We can simplify our run commands by combining local and remote package installation. For example:
+RUN /install-packages.sh –clid ${CLID} –connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+`&lt;/p&gt;
+
+&lt;p&gt;What about adding custom configuration to the nuxeo.conf file? We already know that in the Docker image, the nuxeo.conf file is located in /etc/nuxeo. NUXEO_CONF is set to /etc/nuxeo/nuxeo.conf .  We can add additional configuration by mounting new property files as volumes into the /etc/nuxeo/conf.d directory and each file will then be appended to the nuxeo.conf . This means we can add to our Dockerfile something like this:
+COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties&lt;/p&gt;
+
+&lt;p&gt;It’s really common for folks to use FFmpeg for lots of things in Nuxeo. It isn’t included in the Docker Nuxeo image but we can easily install the RPM Fusion version in our custom image. We have to run the install as root, just remember to set the user back to 900 after.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;USER root
+RUN yum -y localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+RUN yum -y install ffmpeg
+USER 900&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s my sample Dockerfile that builds a custom image based on Nuxeo 10.10! Enjoy&lt;/p&gt;
+
+&lt;p&gt;`ARG NUXEO_VERSION
+FROM nuxeo:${NUXEO_VERSION}
+ARG CLID
+ARG CONNECT_URL
+USER root
+COPY install-packages.sh /
+RUN chmod g+rwx,o+rx /install-packages.sh&lt;/p&gt;
+&lt;h1 id=&quot;install-local-package-of-nuxeo-jsf-ui-1&quot;&gt;Install local package of Nuxeo JSF UI&lt;/h1&gt;
+&lt;p&gt;COPY –chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+RUN /install-packages.sh –offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip&lt;/p&gt;
+&lt;h1 id=&quot;install-remote-package-of-nuxeo-webui-and-nuxeo-drive-1&quot;&gt;Install remote package of Nuxeo WebUI and Nuxeo Drive&lt;/h1&gt;
+&lt;p&gt;RUN /install-packages.sh –clid ${CLID} –connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive&lt;/p&gt;
+&lt;h1 id=&quot;cleanup-1&quot;&gt;Cleanup&lt;/h1&gt;
+&lt;p&gt;#RUN rm -rf $NUXEO_HOME/local-packages
+COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties
+RUN yum -y localinstall –nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+RUN yum -y install ffmpeg
+User 900
+`&lt;/p&gt;</content><author><name></name></author><summary type="html">The following is my first real post as a Developer Advocate with Nuxeo!</summary></entry><entry><title type="html">Welcome to my blog!</title><link href="http://localhost:4000/blog/Hello-World/" rel="alternate" type="text/html" title="Welcome to my blog!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/blog/Hello-World</id><content type="html" xml:base="http://localhost:4000/blog/Hello-World/">&lt;p&gt;I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!</summary></entry></feed>
