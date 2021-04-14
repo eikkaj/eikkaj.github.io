@@ -9,7 +9,7 @@ As a long time Nuxeo developer, I've run Nuxeo across a lot of different mediums
 
 Since I started writing this first blog post, I've learned a lot of things that will be shaping the following posts in this series. To start, Nuxeo has recently published official documentation for creating a custom Docker image to run with Nuxeo LTS 2021. Please see the documentation here: [Build a custom Docker Image](https://doc.nuxeo.com/nxdoc/build-a-custom-docker-image/#installing-nuxeo-packages). 
 
-In addition to that, I've also learned that there have been folks working feverishly to produce a Containerized Development Environment for folks to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more. 
+In addition to that, I've also learned that there have been folks working feverishly to produce a Containerized Development Environment for devs to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more. 
 
 For folks less familiar with Docker or with Nuxeo & Docker, here is some pre-blog post reading for you.
 
@@ -39,13 +39,17 @@ Let's start with the new Dockerfile. I'm going to add this as the first line:
 `FROM nuxeo:10.10`
 
 With just this in place, I can now run a build that will create a Nuxeo app using Nuxeo 10.10 (LTS 2019), in this case I'll build with:
-`docker build -t xyzdamapplication .`
+```
+docker build -t xyzdamapplication .
+```
 
 ![Here is me running the build with just the start of the Dockerfile](/images/0412/DockerFirstBuild.png)
 
 Improving upon this very basic build, we could make the Nuxeo base image configurable by updating my Dockerfile to:
-`ARG NUXEO_VERSION
-FROM nuxeo:${NUXEO_VERSION}`
+```
+ARG NUXEO_VERSION
+FROM nuxeo:${NUXEO_VERSION}
+```
 
 and now when I build, I can specify what version of Nuxeo to use:
 `docker build -t xyzDAMapplication --build-arg NUXEO_VERSION=10.10`
@@ -58,11 +62,11 @@ Now that I can build an LTS 2019 app with Docker for my dev environment, I want 
 
 As of LTS 2021, Nuxeo provides a nice install script that we can use to install packages. The script takes parameters such as the CLID and URL when we want to install remove packages from the marketplace. See here:
 
-https://github.com/nuxeo/nuxeo/tree/master/docker
+[Docker git repo](https://github.com/nuxeo/nuxeo/tree/master/docker)
 and 
-https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh
+[Install-Packages.sh](https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh)
 
-Let's download this script to make our lives easier. I'vedownload it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.
+Let's download this script to make our lives easier. I've downloaded it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.
 
 ```
 USER root
