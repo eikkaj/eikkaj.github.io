@@ -105,16 +105,19 @@ ARG CONNECT_URL
 USER root
 COPY install-packages.sh /
 RUN chmod g+rwx,o+rx /install-packages.sh
-# Install local package of Nuxeo JSF UI
-COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+# Install local package of xyz
+COPY --chown=900:0 /packages/xyzMPlocal.zip $NUXEO_HOME/local-packages/xyzMPlocal.zip
+RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/xyzMPlocal.zip
 # Install remote package of Nuxeo WebUI and Nuxeo Drive
 RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive
 # Cleanup
 #RUN rm -rf $NUXEO_HOME/local-packages
 User 900
+```
+
 We can simplify our run commands by combining local and remote package installation. For example:
-RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+```
+RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/xyzMPlocal.zip
 ```
 
 What about adding custom configuration to the nuxeo.conf file? We already know that in the Docker image, the nuxeo.conf file is located in /etc/nuxeo. NUXEO_CONF is set to /etc/nuxeo/nuxeo.conf .  We can add additional configuration by mounting new property files as volumes into the /etc/nuxeo/conf.d directory and each file will then be appended to the nuxeo.conf . This means we can add to our Dockerfile something like this:
@@ -139,9 +142,9 @@ ARG CONNECT_URL
 USER root
 COPY install-packages.sh /
 RUN chmod g+rwx,o+rx /install-packages.sh
-# Install local package of Nuxeo JSF UI
-COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+# Install local package of xyz
+COPY --chown=900:0 /packages/xyzMPlocal.zip $NUXEO_HOME/local-packages/xyzMPlocal.zip
+RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/xyzMPlocal.zip
 # Install remote package of Nuxeo WebUI and Nuxeo Drive
 RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive
 # Cleanup
