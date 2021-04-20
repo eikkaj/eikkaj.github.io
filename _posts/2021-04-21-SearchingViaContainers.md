@@ -3,9 +3,7 @@ layout: post
 title: How to search for documents via their parent containers
 ---
 
-Hey all,
-
-I was recently asked what the best way is to created a page provider / search in the Nuxeo WebUI that allows users to search for documents and filter by their parent containers. I thought this was a great opportunity to create a sandbox project with some code that folks can adapt and utilize.
+Hey all, I was recently asked what the best way is to created a page provider / search in the Nuxeo WebUI that allows users to search for documents and filter by their parent containers. I thought this was a great opportunity to create a sandbox project with some code that folks can adapt and utilize.
 
 [Check out the git repo for searching via parent containers](https://github.com/nuxeo-sandbox/nuxeo-content-location-search)
 
