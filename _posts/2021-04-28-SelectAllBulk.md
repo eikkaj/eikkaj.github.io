@@ -71,4 +71,7 @@ _doAction: function() {
       this.$.dialog.toggle();
     }
 ```
+
+Curious to learn more about the `Bulk.RunAction` operation? Check out the doc here: [https://explorer.nuxeo.com/nuxeo/site/distribution/Nuxeo%20Platform-2021/viewOperation/Bulk.RunAction](https://explorer.nuxeo.com/nuxeo/site/distribution/Nuxeo%20Platform-2021/viewOperation/Bulk.RunAction)
+
 Happy Coding!
