@@ -1,0 +1,13 @@
+# Authors
+
+Jackie Sweet:
+  name        : "Jackie Sweet"
+  bio         : "Coder extravagante"
+  avatar      : "/images/IMG_0059.jpg"
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:eikcaj_sweet@gmail.com"
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      url: "http://eikkaj.github.io/"

@@ -1,1 +1,0 @@
-### Jackie Aldama's Blog using Jekyll

@@ -1,23 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2021-04-13T09:40:48-04:00</updated><id>http://localhost:4000/blog/feed.xml</id><title type="html">Jackie Sweet’s Blog</title><subtitle>java dev interested in cloud, microservices, nuxeo</subtitle><entry><title type="html">Using Docker in a Dev Environment with Nuxeo</title><link href="http://localhost:4000/blog/NuxeoDocker/" rel="alternate" type="text/html" title="Using Docker in a Dev Environment with Nuxeo" /><published>2021-04-12T00:00:00-04:00</published><updated>2021-04-12T00:00:00-04:00</updated><id>http://localhost:4000/blog/NuxeoDocker</id><content type="html" xml:base="http://localhost:4000/blog/NuxeoDocker/">&lt;p&gt;The following is my first real post as a Developer Advocate with Nuxeo!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-06-22T09:38:06-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">OTR Digital Services</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">How to search for documents via their parent containers (part 2)</title><link href="http://localhost:4000/2021/05/05/SearchingViaContainersp2.html" rel="alternate" type="text/html" title="How to search for documents via their parent containers (part 2)" /><published>2021-05-05T00:00:00-04:00</published><updated>2021-05-05T00:00:00-04:00</updated><id>http://localhost:4000/2021/05/05/SearchingViaContainersp2</id><content type="html" xml:base="http://localhost:4000/2021/05/05/SearchingViaContainersp2.html">&lt;p&gt;&lt;img src=&quot;/images/0505/parent-container.png&quot; alt=&quot;parent-container&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;As a long time Nuxeo developer, I’ve run Nuxeo across a lot of different mediums, including an attempt on an old RPI once, but that’s for another blog post at a future date. During my time in Professional Services, it wasn’t uncommon to have to use different computers for development. Preferably, I would use my Nuxeo laptop which happens to be a Mac, but often times I would be provisioned an old Windows laptop (no offense, Microsoft), and frankly, they’re a huge pain to setup Nuxeo with. Admittedly, for most of my tenure in PS, I didn’t ever take advantage of the Nuxeo docker image that our dev team created. But once I started playing around with docker, I realized setting up a dev environment can be much simpler and is definitely the way to go. Digging through the documentation can be a little confusing so I’ve decided to share my experience here, in case anyone is interested in setting up their dev environment using Nuxeo LTS 2019 and Docker.&lt;/p&gt;
+&lt;p&gt;I wrote an article a couple of weeks ago about searching for documents via their parent containers and provided some code samples for a custom ElasticSearch Writer that would help facilitate that. As I previously explained, a document holds a relationship with its parent via the OOTB property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ecm:parentId&lt;/code&gt;. If I were to add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ecm:parentId&lt;/code&gt; as a predicate to a page provider and scaffold the search layouts in Designer, Studio would add a standard textfield in the search form that users could utilize to search via the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ecm:parentId&lt;/code&gt;. This generally would not be sufficient because most users are not going to know what the container UID is. This is why indexing the parent names was useful - users could then search via the container names instead! But there is an even simpler way to accomplish all of this, without an ES Writer!&lt;/p&gt;
 
-&lt;p&gt;In the following example, I’m going to be working with my custom marketplace package for customer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XYZ&lt;/code&gt;. I want to provide &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XYZ&lt;/code&gt; with a marketplace package that will be usable on Nuxeo LTS 2019. This means that my marketplace package should be built to be compatible with LTS 2019 and my dev environment, which will be utilizing Docker, should be deploying LTS 2019. To deploy my custom marketplace package on a dev docker server, I need to create a custom Dockerfile which will first pull down the Nuxeo LTS 2019 image and then deploy my custom MP, and presumably any other packages my server may require (like Nuxeo Drive, Nuxeo Web UI, etc).&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/nuxeo/nuxeo-studio-community-cookbook/tree/master/modules/nuxeo/parent-container-search&quot;&gt;Check out the Nuxeo Studio Cookbook for searching via parent containers&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The solution I am proposing requires some Studio configuration and NO java development. All you have to do  is add the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ecm:parentId&lt;/code&gt; as a predicate to your page provider. In your search form layout, instead of using the Nuxeo text widget that is automatically added for you, add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeo-document-suggestion&lt;/code&gt; widget. See the below code sample:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;nuxeo-document-suggestion role=&quot;widget&quot; label=&quot;Parent ID Suggestion&quot; value=&quot;&quot; placeholder=&quot;&quot; min-chars=&quot;0&quot; page-provider=&quot;ContainerDocPP&quot;&amp;gt;&amp;lt;/nuxeo-document-suggestion&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You will notice in the sample above that I’m also specifying a custom page provider called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ContainerDocPP&lt;/code&gt;. The Studio Cookbook will show you how it is defined in Modeler. All it’s doing is searching for any document that is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Folderish&lt;/code&gt; ie a container!&lt;/p&gt;
+
+&lt;p&gt;Can you think of a better way to implement Searching via Containers in the Nuxeo WebUI?&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">How to select all documents from search and send to bulk action</title><link href="http://localhost:4000/2021/04/28/SelectAllBulk.html" rel="alternate" type="text/html" title="How to select all documents from search and send to bulk action" /><published>2021-04-28T00:00:00-04:00</published><updated>2021-04-28T00:00:00-04:00</updated><id>http://localhost:4000/2021/04/28/SelectAllBulk</id><content type="html" xml:base="http://localhost:4000/2021/04/28/SelectAllBulk.html">&lt;p&gt;Hey all, I was recently asked what the best way was to implement a “Select All” type of functionality in the Nuxeo Web UI such that all documents returned in a search could be sent to a particular bulk action. This is actually something on the &lt;a href=&quot;https://doc.nuxeo.com/nxdoc/web-ui-roadmap/&quot;&gt;Nuxeo roadmap&lt;/a&gt; to be implemented officially, but meanwhile, I figured I’d show a quick workaround. Select All currently doesn’t exist because of the challenges around selecting all of the checkboxes in the results view when it is a lazily load infinite scrolling list. De-selecting specific items may also present challenges. My solution avoids the visual application of actually selecting the checkboxes and I’ve simply added a button in the UI that takes all of the results of the page provider and sends them to a Bulk Action.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/nuxeo/nuxeo-studio-community-cookbook/tree/master/modules/nuxeo/select-all-bulk-action&quot;&gt;Check out the git repo for selecting all documents from search and sending to a bulk action&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In my example, there is very basic configuration done in Studio - mainly I have created an extremely simple Page Provider with one predicate: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dc:title&lt;/code&gt;. I’ve scaffolded the search form and results layouts. The real customization comes in the results layout.&lt;/p&gt;
+
+&lt;p&gt;Essentially, I’ve added a few components to my search results form to accomplish everything:
+1- I’ve embedded a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeo-operation-button&lt;/code&gt; at the top of my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;search-results&lt;/code&gt; tied to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bulk.RunAction&lt;/code&gt; operation.
+2- I’ve embedded a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeo-page-provider&lt;/code&gt; element in the UI which will be fed to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bulk.RunAction&lt;/code&gt; operation
+3- I’ve created a dialog that will pop-up when a user presses on the 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeo-operation-button&lt;/code&gt; to confirm the bulk action and trigger it.&lt;/p&gt;
+
+&lt;p&gt;In my example, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeo-operation-button&lt;/code&gt; uses a checkmark icon:
+&lt;img src=&quot;/images/0428/checkmark.png&quot; alt=&quot;checkmark&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When the user presses the checkmark, a dialog will appear:
+&lt;img src=&quot;/images/0428/dialog.png&quot; alt=&quot;dialog&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s the UI source code that accomplishes this:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;nuxeo-operation-button id=&quot;bulkRunAction&quot; operation=&quot;Bulk.RunAction&quot; input=&quot;[[nxProvider]]&quot; notification=&quot;All results in this search were sent to be exported to csv&quot; event=&quot;document-updated&quot;&amp;gt;&amp;lt;/nuxeo-operation-button&amp;gt;
+
+    &amp;lt;div class=&quot;action&quot; on-tap=&quot;_toggleDialog&quot;&amp;gt;
+      &amp;lt;paper-icon-button id=&quot;bt&quot; icon=&quot;icons:check&quot;&amp;gt;&amp;lt;/paper-icon-button&amp;gt;
+    &amp;lt;/div&amp;gt;
+
+    &amp;lt;nuxeo-page-provider id=&quot;nxProvider&quot;
+                         provider=&quot;MySearch&quot;
+                         page-size=&quot;40&quot;
+                         params=&quot;[[params]]&quot;
+                         schemas=&quot;dublincore,common,uid,file&quot;
+                         headers='{ &quot;X-NXfetch.document&quot;: &quot;properties&quot;, &quot;X-NXtranslate.directoryEntry&quot;: &quot;label&quot; }'
+                         fetch-aggregates&amp;gt;
+    &amp;lt;/nuxeo-page-provider&amp;gt;
+
+    &amp;lt;nuxeo-dialog id=&quot;dialog&quot; on-iron-overlay-closed=&quot;&quot; with-backdrop&amp;gt;
+      &amp;lt;div class=&quot;content&quot;&amp;gt;
+        &amp;lt;h2&amp;gt;Export All Documents Returned From Search&amp;lt;/h2&amp;gt;
+      &amp;lt;/div&amp;gt;
+      &amp;lt;div class=&quot;buttons&quot;&amp;gt;
+        &amp;lt;paper-button dialog-dismiss=&quot;&quot;&amp;gt;Cancel&amp;lt;/paper-button&amp;gt;
+        &amp;lt;paper-button dialog-confirm=&quot;&quot; class=&quot;primary&quot; on-tap=&quot;_doAction&quot;&amp;gt;Export to CSV&amp;lt;/paper-button&amp;gt;
+      &amp;lt;/div&amp;gt;
+    &amp;lt;/nuxeo-dialog&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So to summarize, I’m going to send all of the results of the executed search to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#bulkRunAction&lt;/code&gt; operation I’ve embedded in my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;search-results&lt;/code&gt; form. I added the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeo-page-provider&lt;/code&gt; to the UI because the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bulk.RunAction&lt;/code&gt; operation will take that as input. In addition to the page provider, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bulk.RunAction&lt;/code&gt; will accept &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;namedParameters&lt;/code&gt; in its input parameters. This is how we can pass the parameters utilized to execute the search to the bulk action, such as a predicate or an aggregate selected. This is all accomplished in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;doAction&lt;/code&gt; function I’ve written, which as you can see, is triggered when a user presses the confirm button in the dialog. You will also notice that I’ve essentially hard-coded what bulk action is going to ne executed (CSV Export). This could obviously be far more customizable.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_doAction: function() {
+	// hack to pull the parameters the user selected in the search-form to execute the search in the UI
+   var ppParams = document.querySelector(&quot;nuxeo-app&quot;).root.querySelector(&quot;#drawerPanel&quot;).querySelector(&quot;div[slot=drawer]&quot;).querySelector(&quot;#drawer-pages&quot;).querySelector(&quot;nuxeo-search-form[name=mynewsearch]&quot;).params;
+      
+   ppParams = JSON.stringify(ppParams);
+
+   this.$.bulkRunAction.params = {
+    action: 'csvExport', 
+    providerName: 'MySearch',
+    namedParameters: ppParams
+      };
+
+    this.$.bulkRunAction._execute();
+    },
+
+    _toggleDialog: function() {
+      this.$.dialog.toggle();
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Curious to learn more about the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bulk.RunAction&lt;/code&gt; operation? Check out the doc here: &lt;a href=&quot;https://explorer.nuxeo.com/nuxeo/site/distribution/Nuxeo%20Platform-2021/viewOperation/Bulk.RunAction&quot;&gt;https://explorer.nuxeo.com/nuxeo/site/distribution/Nuxeo%20Platform-2021/viewOperation/Bulk.RunAction&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Happy Coding!&lt;/p&gt;</content><author><name></name></author><summary type="html">Hey all, I was recently asked what the best way was to implement a “Select All” type of functionality in the Nuxeo Web UI such that all documents returned in a search could be sent to a particular bulk action. This is actually something on the Nuxeo roadmap to be implemented officially, but meanwhile, I figured I’d show a quick workaround. Select All currently doesn’t exist because of the challenges around selecting all of the checkboxes in the results view when it is a lazily load infinite scrolling list. De-selecting specific items may also present challenges. My solution avoids the visual application of actually selecting the checkboxes and I’ve simply added a button in the UI that takes all of the results of the page provider and sends them to a Bulk Action.</summary></entry><entry><title type="html">How to search for documents via their parent containers</title><link href="http://localhost:4000/2021/04/21/SearchingViaContainers.html" rel="alternate" type="text/html" title="How to search for documents via their parent containers" /><published>2021-04-21T00:00:00-04:00</published><updated>2021-04-21T00:00:00-04:00</updated><id>http://localhost:4000/2021/04/21/SearchingViaContainers</id><content type="html" xml:base="http://localhost:4000/2021/04/21/SearchingViaContainers.html">&lt;p&gt;Hey all, I was recently asked what the best way is to created a page provider / search in the Nuxeo WebUI that allows users to search for documents and filter by their parent containers. I thought this was a great opportunity to create a sandbox project with some code that folks can adapt and utilize.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/nuxeo-sandbox/nuxeo-content-location-search&quot;&gt;Check out the git repo for searching via parent containers&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The solution I am proposing requires some Studio configuration and java development, and this is due to the nature of Nuxeo’s OOTB data model. Documents have knowledge of their parents via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ecm:parentId&lt;/code&gt; but using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;parentId&lt;/code&gt; as a predicate or aggregate isn’t super useful, since you’d have to search by the parent’s UID…Indexing the parent’s path is a much nicer solution for users in the UI.&lt;/p&gt;
+
+&lt;p&gt;First, check out my data model. I’ve created a new custom schema specific for use in my page provider. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assets_search:content_location&lt;/code&gt; won’t be added to any layouts but the page provider that I’m setting up for this example - meaning ES is only going to be writing to it.
+&lt;img src=&quot;/images/0421/customschema.png&quot; alt=&quot;custom schema&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, I update the File doctype so that it inherits the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assets_search&lt;/code&gt; schema.
+&lt;img src=&quot;/images/0421/fileschemas.png&quot; alt=&quot;File doctype&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, I have created a page provider to leverage this field in the form of an aggregate.
+&lt;img src=&quot;/images/0421/custompp.png&quot; alt=&quot;Custom PP&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you deploy your app with a similar Studio configuration, you’ll find an aggregate in your search (assuming you added it to the proper layouts) but no data will be available, because nothing is being written to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assets_search:content_location&lt;/code&gt; yet. Here is where the fun begins.&lt;/p&gt;
+
+&lt;p&gt;I contributed a new ES Document Writer to help write a given document’s path to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assets_search:content_location&lt;/code&gt; . See &lt;a href=&quot;https://github.com/nuxeo-sandbox/nuxeo-content-location-search/blob/master/nuxeo-content-location-search-core/src/main/java/contentlocation/core/es/ContentESDocumentWriter.java&quot;&gt;ContentESDocumentWriter&lt;/a&gt; for more info.&lt;/p&gt;
+
+&lt;p&gt;The key of this override is the actual writing to that custom field:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;DocumentModel parentDoc = coreSession.getDocument(doc.getParentRef());
+Path path = parentDoc.getPath();
+jg.writeStringField(&quot;assets_search:content_location&quot;, path.toString());
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once this writer is in place, documents will have &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assets_search:content_location&lt;/code&gt; available in ES, meaning a page provider utilizing ES will be able to use this in a predicate or aggregate so users can filter for documents by their parent path!&lt;/p&gt;
+
+&lt;p&gt;If you have any questions about this sandbox project, how to create your own, or anything else, please don’t hesitate to ask!&lt;/p&gt;</content><author><name></name></author><summary type="html">Hey all, I was recently asked what the best way is to created a page provider / search in the Nuxeo WebUI that allows users to search for documents and filter by their parent containers. I thought this was a great opportunity to create a sandbox project with some code that folks can adapt and utilize.</summary></entry><entry><title type="html">Using Docker in a Dev Environment with Nuxeo</title><link href="http://localhost:4000/2021/04/14/NuxeoDocker.html" rel="alternate" type="text/html" title="Using Docker in a Dev Environment with Nuxeo" /><published>2021-04-14T00:00:00-04:00</published><updated>2021-04-14T00:00:00-04:00</updated><id>http://localhost:4000/2021/04/14/NuxeoDocker</id><content type="html" xml:base="http://localhost:4000/2021/04/14/NuxeoDocker.html">&lt;p&gt;Hey all, this will be the first post of a series of posts related to working with Nuxeo as a developer while utilizing Docker.&lt;/p&gt;
+
+&lt;p&gt;As a long time Nuxeo developer, I’ve run Nuxeo across a lot of different mediums, including an attempt on an old RPI once, but that’s for another blog post at a future date. Admittedly, for the vast majority of my tenure at Nuxeo, I haven’t worked all that much with our Docker images. Most recently, I’ve begun to change this and have decided to create a series of blog posts related to my experience getting a dev environment up and running with Docker. Utilizing docker can simplify a dev environment quite significantly, as is turns out, and has potential to be a lot more stable. Nuxeo as a company has been working towards providing a more seamless way to get devs up and running from the start, and in order to accomplish this, there’s been a lot of investment in building Docker images and dev containers. I’m really excited to finally be taking the time to learn more about Docker and I hope my experiences here may help folks get their environments up and running more easily.&lt;/p&gt;
+
+&lt;p&gt;Since I started writing this first blog post, I’ve learned a lot of things that will be shaping the following posts in this series. To start, Nuxeo has recently published official documentation for creating a custom Docker image to run with Nuxeo LTS 2021. Please see the documentation here: &lt;a href=&quot;https://doc.nuxeo.com/nxdoc/build-a-custom-docker-image/#installing-nuxeo-packages&quot;&gt;Build a custom Docker Image&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In addition to that, I’ve also learned that there have been folks working feverishly to produce a Containerized Development Environment for devs to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more.&lt;/p&gt;
+
+&lt;p&gt;For folks less familiar with Docker or with Nuxeo &amp;amp; Docker, here is some pre-blog post reading for you.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://university.nuxeo.com/learn/course/143/play/395/nuxeo-platform-quickstart-installation-concepts&quot;&gt;Check out this University Course for how to get started with the Nuxeo Platform&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://doc.nuxeo.com/nxdoc/docker-image/&quot;&gt;Check out this documentation for how to install Nuxeo with Docker&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://doc.nuxeo.com/corg/docker-usage/&quot;&gt;Check out our Docker Usage Best Practices as part of the Nuxeo Core Developer Guide&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/nuxeo/nuxeo-tools-docker&quot;&gt;Check out Nuxeo’s nuxeo-tools-docker repo which contains some misc Docker files that are used internally - this is a working repo and not officially supported&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/docker-library/docs/tree/master/nuxeo&quot;&gt;Check  out the docker-library Nuxeo doc&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/nuxeo/docker-nuxeo&quot;&gt;Check out the git repo which contains Nuxeo’s official Docker images&lt;/a&gt;
+&lt;a href=&quot;https://docs.docker.com/&quot;&gt;Docker docs&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In the following example, I’m going to be working with my custom marketplace package for customer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XYZ&lt;/code&gt;. I want to provide &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XYZ&lt;/code&gt; with a marketplace package that will be usable on Nuxeo LTS 2019. This means that my marketplace package should be built to be compatible with LTS 2019 and my dev environment, which will be utilizing Docker, should be deploying LTS 2019. To deploy my custom marketplace package on a dev server running in docker, I need to create a custom Dockerfile which will first pull down the Nuxeo LTS 2019 image and then deploy my custom MP, and presumably any other packages my server may require (like Nuxeo Drive, Nuxeo Web UI, etc).&lt;/p&gt;
 
 &lt;p&gt;I have a couple local repos set up, one is my custom MP and the next is where my Dockerfile will be.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/0412/xyzDAMapproot.png&quot; alt=&quot;Here is my XYZ DAM marketplace package root directory&quot; /&gt;
+&lt;img src=&quot;/images/0412/xyzDAMappMP.png&quot; alt=&quot;Here is my XYZ DAM marketplace package, which can be installed on any Nuxeo LTS 2019 server&quot; /&gt;
+&lt;img src=&quot;/images/0412/xyzDockerRoot.png&quot; alt=&quot;Here is my XYZ Docker root directory, I've already created a Dockerfile which is currently empty&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Let’s start with the new Dockerfile. I’m going to add this as the first line:
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FROM nuxeo:10.10&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;With just this in place, I can now run a build that will create a Nuxeo app using Nuxeo 10.10 (LTS 2019), in this case I’ll build with:
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker build -t xyzDAMapplication .&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;With just this in place, I can now run a build that will create a Nuxeo app using Nuxeo 10.10 (LTS 2019), in this case I’ll build with:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build -t xyzdamapplication .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Improving upon this very basic build, we could make the Nuxeo base image configurable by updating my Dockerfile to:
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARG NUXEO_VERSION
-FROM nuxeo:${NUXEO_VERSION}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/0412/DockerFirstBuild.png&quot; alt=&quot;Here is me running the build with just the start of the Dockerfile&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Improving upon this very basic build, we could make the Nuxeo base image configurable by updating my Dockerfile to:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ARG NUXEO_VERSION
+FROM nuxeo:${NUXEO_VERSION}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;and now when I build, I can specify what version of Nuxeo to use:
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker build -t xyzDAMapplication --build-arg NUXEO_VERSION=10.10&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/0412/DockerSecond	Build.png&quot; alt=&quot;Here is me running the build with the new version argument&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Now that I can build an LTS 2019 app with Docker for my dev environment, I want to deploy the server with my custom marketplace package, so I can, of course, continue local development and so on. When using a tomcat server, I would normally just stop the server and manually install the marketplace package using the nuxeoctl script inside of the the Tomcat server &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bin&lt;/code&gt; directory. 
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nuxeoctl mp-install xyzMPlocal.zip&lt;/code&gt; or
@@ -25,82 +163,94 @@ FROM nuxeo:${NUXEO_VERSION}&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;As of LTS 2021, Nuxeo provides a nice install script that we can use to install packages. The script takes parameters such as the CLID and URL when we want to install remove packages from the marketplace. See here:&lt;/p&gt;
 
-&lt;p&gt;https://github.com/nuxeo/nuxeo/tree/master/docker
+&lt;p&gt;&lt;a href=&quot;https://github.com/nuxeo/nuxeo/tree/master/docker&quot;&gt;Docker git repo&lt;/a&gt;
 and 
-https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh&lt;/p&gt;
+&lt;a href=&quot;https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh&quot;&gt;Install-Packages.sh&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Let’s download this script to make our lives easier. I’vedownload it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.&lt;/p&gt;
+&lt;p&gt;Let’s download this script to make our lives easier. I’ve downloaded it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;USER root
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;USER root
 COPY install-packages.sh /
-RUN chmod g+rwx,o+rx /install-packages.sh&lt;/code&gt;&lt;/p&gt;
+RUN chmod g+rwx,o+rx /install-packages.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Next I’m going to create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;packages&lt;/code&gt; directory in the root directory of my Dockerfile. Then, I will copy my local mp here so that Docker can access it and install it. Then we can use the script to install the local package. The copying and installation can be set programatically in the Dockerfile:
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip
-$NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Next I’m going to create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;packages&lt;/code&gt; directory in the root directory of my Dockerfile. Then, I will copy my local mp here so that Docker can access it and install it. Then we can use the script to install the local package. The copying and installation can be set programatically in the Dockerfile:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip
+$NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-User 900&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+User 900
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;You’ll notice I change the current user to 900 after taking care of the installation business. 900 is the recommended user per Nuxeo best practices with Docker.&lt;/p&gt;
 
 &lt;p&gt;In the case of installing a remote package from the marketplace, things are even simpler.
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Note that in order to pass the CLID and CONNECT_URL, we should update the top of the Dockerfile to expect these arguments.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARG CLID
+&lt;p&gt;Note that in order to pass the CLID and CONNECT_URL, we should update the top of the Dockerfile to expect these arguments.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ARG CLID
 ARG CONNECT_URL
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Here’s my full Dockerfile so far:
-`
-ARG NUXEO_VERSION
+&lt;p&gt;Here’s my full Dockerfile so far:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ARG NUXEO_VERSION
 FROM nuxeo:${NUXEO_VERSION}
 ARG CLID
 ARG CONNECT_URL
 USER root
 COPY install-packages.sh /
-RUN chmod g+rwx,o+rx /install-packages.sh&lt;/p&gt;
-&lt;h1 id=&quot;install-local-package-of-nuxeo-jsf-ui&quot;&gt;Install local package of Nuxeo JSF UI&lt;/h1&gt;
-&lt;p&gt;COPY –chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-RUN /install-packages.sh –offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip&lt;/p&gt;
-&lt;h1 id=&quot;install-remote-package-of-nuxeo-webui-and-nuxeo-drive&quot;&gt;Install remote package of Nuxeo WebUI and Nuxeo Drive&lt;/h1&gt;
-&lt;p&gt;RUN /install-packages.sh –clid ${CLID} –connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive&lt;/p&gt;
-&lt;h1 id=&quot;cleanup&quot;&gt;Cleanup&lt;/h1&gt;
-&lt;p&gt;#RUN rm -rf $NUXEO_HOME/local-packages
+RUN chmod g+rwx,o+rx /install-packages.sh
+# Install local package of xyz
+COPY --chown=900:0 /packages/xyzMPlocal.zip $NUXEO_HOME/local-packages/xyzMPlocal.zip
+RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/xyzMPlocal.zip
+# Install remote package of Nuxeo WebUI and Nuxeo Drive
+RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive
+# Cleanup
+#RUN rm -rf $NUXEO_HOME/local-packages
 User 900
-We can simplify our run commands by combining local and remote package installation. For example:
-RUN /install-packages.sh –clid ${CLID} –connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-`&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can simplify our run commands by combining local and remote package installation. For example:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/xyzMPlocal.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;What about adding custom configuration to the nuxeo.conf file? We already know that in the Docker image, the nuxeo.conf file is located in /etc/nuxeo. NUXEO_CONF is set to /etc/nuxeo/nuxeo.conf .  We can add additional configuration by mounting new property files as volumes into the /etc/nuxeo/conf.d directory and each file will then be appended to the nuxeo.conf . This means we can add to our Dockerfile something like this:
-COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties&lt;/p&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;It’s really common for folks to use FFmpeg for lots of things in Nuxeo. It isn’t included in the Docker Nuxeo image but we can easily install the RPM Fusion version in our custom image. We have to run the install as root, just remember to set the user back to 900 after.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;USER root
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;USER root
 RUN yum -y localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
 RUN yum -y install ffmpeg
-USER 900&lt;/code&gt;&lt;/p&gt;
+USER 900
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Here’s my sample Dockerfile that builds a custom image based on Nuxeo 10.10! Enjoy&lt;/p&gt;
 
-&lt;p&gt;`ARG NUXEO_VERSION
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ARG NUXEO_VERSION
 FROM nuxeo:${NUXEO_VERSION}
 ARG CLID
 ARG CONNECT_URL
 USER root
 COPY install-packages.sh /
-RUN chmod g+rwx,o+rx /install-packages.sh&lt;/p&gt;
-&lt;h1 id=&quot;install-local-package-of-nuxeo-jsf-ui-1&quot;&gt;Install local package of Nuxeo JSF UI&lt;/h1&gt;
-&lt;p&gt;COPY –chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
-RUN /install-packages.sh –offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip&lt;/p&gt;
-&lt;h1 id=&quot;install-remote-package-of-nuxeo-webui-and-nuxeo-drive-1&quot;&gt;Install remote package of Nuxeo WebUI and Nuxeo Drive&lt;/h1&gt;
-&lt;p&gt;RUN /install-packages.sh –clid ${CLID} –connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive&lt;/p&gt;
-&lt;h1 id=&quot;cleanup-1&quot;&gt;Cleanup&lt;/h1&gt;
-&lt;p&gt;#RUN rm -rf $NUXEO_HOME/local-packages
+RUN chmod g+rwx,o+rx /install-packages.sh
+# Install local package of xyz
+COPY --chown=900:0 /packages/xyzMPlocal.zip $NUXEO_HOME/local-packages/xyzMPlocal.zip
+RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/xyzMPlocal.zip
+# Install remote package of Nuxeo WebUI and Nuxeo Drive
+RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive
+# Cleanup
+#RUN rm -rf $NUXEO_HOME/local-packages
 COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties
-RUN yum -y localinstall –nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+RUN yum -y localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
 RUN yum -y install ffmpeg
 User 900
-`&lt;/p&gt;</content><author><name></name></author><summary type="html">The following is my first real post as a Developer Advocate with Nuxeo!</summary></entry><entry><title type="html">Welcome to my blog!</title><link href="http://localhost:4000/blog/Hello-World/" rel="alternate" type="text/html" title="Welcome to my blog!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/blog/Hello-World</id><content type="html" xml:base="http://localhost:4000/blog/Hello-World/">&lt;p&gt;I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Coming next:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;docker-compose&lt;/li&gt;
+  &lt;li&gt;creating a test suite for docker-based dev environments&lt;/li&gt;
+  &lt;li&gt;containerized development environments&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">Hey all, this will be the first post of a series of posts related to working with Nuxeo as a developer while utilizing Docker.</summary></entry><entry><title type="html">Welcome to my blog!</title><link href="http://localhost:4000/2014/03/03/Hello-World.html" rel="alternate" type="text/html" title="Welcome to my blog!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/2014/03/03/Hello-World</id><content type="html" xml:base="http://localhost:4000/2014/03/03/Hello-World.html">&lt;p&gt;I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ll be posting semi-regularly about tech related things that I am interested in, particularly related to Nuxeo. I’d love to collaborate and also welcome feedback. My contact info can be found in the About page. Cheers!</summary></entry></feed>

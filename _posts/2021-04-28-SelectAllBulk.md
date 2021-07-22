@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: How to select all documents from search and send to bulk action
 ---
 

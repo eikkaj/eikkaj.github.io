@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Using Docker in a Dev Environment with Nuxeo
 ---
 

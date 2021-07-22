@@ -1,0 +1,12 @@
+# main links
+main:
+  - title: "Creative"
+    url: /creative/
+  - title: "Tech"
+    url: /tech/
+  - title: "Blog"
+    url: /blog/
+  - title: "Who We Are"
+    url: /who/
+  - title: "Contact"
+    url: /contact/

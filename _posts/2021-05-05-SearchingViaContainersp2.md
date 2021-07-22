@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: How to search for documents via their parent containers (part 2)
 ---
 
