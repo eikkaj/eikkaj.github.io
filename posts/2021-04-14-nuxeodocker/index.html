@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="eikcaj sweet">
+    <meta name="description" content="Using Docker in a Dev Environment with Nuxeo">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using Docker in a Dev Environment with Nuxeo"/>
+<meta name="twitter:description" content="Using Docker in a Dev Environment with Nuxeo"/>
+
+    <meta property="og:title" content="Using Docker in a Dev Environment with Nuxeo" />
+<meta property="og:description" content="Using Docker in a Dev Environment with Nuxeo" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://eikkajh.github.io/eikkaj/posts/2021-04-14-nuxeodocker/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-14T00:00:00+00:00" />
+
+
+
+    <title>
+  Using Docker in a Dev Environment with Nuxeo · eikcaj sweet
+</title>
+
+    
+      <link rel="canonical" href="https://eikkajh.github.io/eikkaj/posts/2021-04-14-nuxeodocker/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/eikkaj/css/coder.min.5f31841db3150542181a4d03fff5b261923a7b76fe13fe6d45287cb74aa3e67f.css" integrity="sha256-XzGEHbMVBUIYGk0D//WyYZI6e3b&#43;E/5tRSh8t0qj5n8=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/eikkaj/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/eikkaj/img/favicon.jpeg" sizes="32x32">
+    <link rel="icon" type="image/png" href="/eikkaj/img/favicon.jpeg" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/eikkaj/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/eikkaj/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.2/twemoji.min.js"
+        integrity="sha384-wyB/MspSJ/r2bT2kCj44qtsYRYlpzO2oAPhRj5myrWD63dt6qWv4x8AZe7Fl3K3b" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.88.1" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/eikkaj">
+      eikcaj sweet
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/about/">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/contact/">Contact</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/photography/">Photography</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/resume/">Resume</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://eikkajh.github.io/eikkaj/posts/2021-04-14-nuxeodocker/">
+              Using Docker in a Dev Environment with Nuxeo
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-04-14T00:00:00Z'>
+                April 14, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/eikkaj/tags/hello-world/">hello world</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/code/">code</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/open-source/">open source</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/devrel/">devrel</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/women-in-tech/">women in tech</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/developer-relations/">developer relations</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/advocacy/">advocacy</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/tech/">tech</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/data-privacy/">data privacy</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/software-engineer/">software engineer</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/docker/">docker</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/nuxeo/">nuxeo</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+        <p>Hey all, this will be the first post of a series of posts related to working with Nuxeo as a developer while utilizing Docker.</p>
+<p>As a long time Nuxeo developer, I&rsquo;ve run Nuxeo across a lot of different mediums, including an attempt on an old RPI once, but that&rsquo;s for another blog post at a future date. Admittedly, for the vast majority of my tenure at Nuxeo, I haven&rsquo;t worked all that much with our Docker images. Most recently, I&rsquo;ve begun to change this and have decided to create a series of blog posts related to my experience getting a dev environment up and running with Docker. Utilizing docker can simplify a dev environment quite significantly, as is turns out, and has potential to be a lot more stable. Nuxeo as a company has been working towards providing a more seamless way to get devs up and running from the start, and in order to accomplish this, there&rsquo;s been a lot of investment in building Docker images and dev containers. I&rsquo;m really excited to finally be taking the time to learn more about Docker and I hope my experiences here may help folks get their environments up and running more easily.</p>
+<p>Since I started writing this first blog post, I&rsquo;ve learned a lot of things that will be shaping the following posts in this series. To start, Nuxeo has recently published official documentation for creating a custom Docker image to run with Nuxeo LTS 2021. Please see the documentation here: <a href="https://doc.nuxeo.com/nxdoc/build-a-custom-docker-image/#installing-nuxeo-packages">Build a custom Docker Image</a>.</p>
+<p>In addition to that, I&rsquo;ve also learned that there have been folks working feverishly to produce a Containerized Development Environment for devs to use. I think the potential here is absolutely huge and will really enable new developers to get into the juice of building on top of Nuxeo extremely fast. Keep following my blog to learn of this recent development as soon as I know more.</p>
+<p>For folks less familiar with Docker or with Nuxeo &amp; Docker, here is some pre-blog post reading for you.</p>
+<p><a href="https://university.nuxeo.com/learn/course/143/play/395/nuxeo-platform-quickstart-installation-concepts">Check out this University Course for how to get started with the Nuxeo Platform</a></p>
+<p><a href="https://doc.nuxeo.com/nxdoc/docker-image/">Check out this documentation for how to install Nuxeo with Docker</a></p>
+<p><a href="https://doc.nuxeo.com/corg/docker-usage/">Check out our Docker Usage Best Practices as part of the Nuxeo Core Developer Guide</a></p>
+<p><a href="https://github.com/nuxeo/nuxeo-tools-docker">Check out Nuxeo&rsquo;s nuxeo-tools-docker repo which contains some misc Docker files that are used internally - this is a working repo and not officially supported</a></p>
+<p><a href="https://github.com/docker-library/docs/tree/master/nuxeo">Check  out the docker-library Nuxeo doc</a></p>
+<p><a href="https://github.com/nuxeo/docker-nuxeo">Check out the git repo which contains Nuxeo&rsquo;s official Docker images</a>
+<a href="https://docs.docker.com/">Docker docs</a></p>
+<p>In the following example, I&rsquo;m going to be working with my custom marketplace package for customer <code>XYZ</code>. I want to provide <code>XYZ</code> with a marketplace package that will be usable on Nuxeo LTS 2019. This means that my marketplace package should be built to be compatible with LTS 2019 and my dev environment, which will be utilizing Docker, should be deploying LTS 2019. To deploy my custom marketplace package on a dev server running in docker, I need to create a custom Dockerfile which will first pull down the Nuxeo LTS 2019 image and then deploy my custom MP, and presumably any other packages my server may require (like Nuxeo Drive, Nuxeo Web UI, etc).</p>
+<p>I have a couple local repos set up, one is my custom MP and the next is where my Dockerfile will be.</p>
+<p><img src="/images/0412/xyzDAMapproot.png" alt="Here is my XYZ DAM marketplace package root directory">
+<img src="/images/0412/xyzDAMappMP.png" alt="Here is my XYZ DAM marketplace package, which can be installed on any Nuxeo LTS 2019 server">
+<img src="/images/0412/xyzDockerRoot.png" alt="Here is my XYZ Docker root directory, I&rsquo;ve already created a Dockerfile which is currently empty"></p>
+<p>Let&rsquo;s start with the new Dockerfile. I&rsquo;m going to add this as the first line:
+<code>FROM nuxeo:10.10</code></p>
+<p>With just this in place, I can now run a build that will create a Nuxeo app using Nuxeo 10.10 (LTS 2019), in this case I&rsquo;ll build with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t xyzdamapplication .
+</code></pre></div><p><img src="/images/0412/DockerFirstBuild.png" alt="Here is me running the build with just the start of the Dockerfile"></p>
+<p>Improving upon this very basic build, we could make the Nuxeo base image configurable by updating my Dockerfile to:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ARG NUXEO_VERSION
+FROM nuxeo:${NUXEO_VERSION}
+</code></pre></div><p>and now when I build, I can specify what version of Nuxeo to use:
+<code>docker build -t xyzDAMapplication --build-arg NUXEO_VERSION=10.10</code></p>
+<p>![Here is me running the build with the new version argument](/images/0412/DockerSecond	Build.png)</p>
+<p>Now that I can build an LTS 2019 app with Docker for my dev environment, I want to deploy the server with my custom marketplace package, so I can, of course, continue local development and so on. When using a tomcat server, I would normally just stop the server and manually install the marketplace package using the nuxeoctl script inside of the the Tomcat server <code>bin</code> directory.
+<code>nuxeoctl mp-install xyzMPlocal.zip</code> or
+<code>nuxeoctl mp-install xyzMPonNuxeoConnect:version</code></p>
+<p>As of LTS 2021, Nuxeo provides a nice install script that we can use to install packages. The script takes parameters such as the CLID and URL when we want to install remove packages from the marketplace. See here:</p>
+<p><a href="https://github.com/nuxeo/nuxeo/tree/master/docker">Docker git repo</a>
+and
+<a href="https://github.com/nuxeo/nuxeo/blob/master/docker/install-packages.sh">Install-Packages.sh</a></p>
+<p>Let&rsquo;s download this script to make our lives easier. I&rsquo;ve downloaded it myself and copied it to the root directory where my new Dockerfile lives. So now, I can update my Dockerfile to do a few more things. First, I need to make sure Docker will be able to use the install script I just downloaded and copied.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">USER root
+COPY install-packages.sh /
+RUN chmod g+rwx,o+rx /install-packages.sh
+</code></pre></div><p>Next I&rsquo;m going to create a <code>packages</code> directory in the root directory of my Dockerfile. Then, I will copy my local mp here so that Docker can access it and install it. Then we can use the script to install the local package. The copying and installation can be set programatically in the Dockerfile:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">COPY --chown=900:0 /packages/nuxeo-jsf-ui-10.10.zip
+$NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">RUN /install-packages.sh --offline $NUXEO_HOME/local-packages/nuxeo-jsf-ui-10.10.zip
+User 900
+</code></pre></div><p>You’ll notice I change the current user to 900 after taking care of the installation business. 900 is the recommended user per Nuxeo best practices with Docker.</p>
+<p>In the case of installing a remote package from the marketplace, things are even simpler.
+<code>RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive</code></p>
+<p>Note that in order to pass the CLID and CONNECT_URL, we should update the top of the Dockerfile to expect these arguments.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ARG CLID
+ARG CONNECT_URL
+</code></pre></div><p>Here’s my full Dockerfile so far:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">ARG NUXEO_VERSION
+FROM nuxeo:<span style="">$</span>{NUXEO_VERSION}
+ARG CLID
+ARG CONNECT_URL
+USER root
+COPY install-packages.sh /
+RUN chmod g+rwx,o+rx /install-packages.sh
+<span style="">#</span> Install local <span style="font-weight:bold">package</span> of xyz
+COPY --chown=900:0 /packages/xyzMPlocal.zip <span style="">$</span>NUXEO_HOME/local-packages/xyzMPlocal.zip
+RUN /install-packages.sh --offline <span style="">$</span>NUXEO_HOME/local-packages/xyzMPlocal.zip
+<span style="">#</span> Install remote <span style="font-weight:bold">package</span> of Nuxeo WebUI and Nuxeo Drive
+RUN /install-packages.sh --clid <span style="">$</span>{CLID} --connect-url <span style="">$</span>{CONNECT_URL} nuxeo-web-ui nuxeo-drive
+<span style="">#</span> Cleanup
+<span style="">#</span>RUN rm -rf <span style="">$</span>NUXEO_HOME/local-packages
+User 900
+</code></pre></div><p>We can simplify our run commands by combining local and remote package installation. For example:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">RUN /install-packages.sh --clid ${CLID} --connect-url ${CONNECT_URL} nuxeo-web-ui nuxeo-drive $NUXEO_HOME/local-packages/xyzMPlocal.zip
+</code></pre></div><p>What about adding custom configuration to the nuxeo.conf file? We already know that in the Docker image, the nuxeo.conf file is located in /etc/nuxeo. NUXEO_CONF is set to /etc/nuxeo/nuxeo.conf .  We can add additional configuration by mounting new property files as volumes into the /etc/nuxeo/conf.d directory and each file will then be appended to the nuxeo.conf . This means we can add to our Dockerfile something like this:
+<code>COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties</code></p>
+<p>It’s really common for folks to use FFmpeg for lots of things in Nuxeo. It isn’t included in the Docker Nuxeo image but we can easily install the RPM Fusion version in our custom image. We have to run the install as root, just remember to set the user back to 900 after.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">USER root
+RUN yum -y localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+RUN yum -y install ffmpeg
+USER 900
+</code></pre></div><p>Here’s my sample Dockerfile that builds a custom image based on Nuxeo 10.10! Enjoy</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">ARG NUXEO_VERSION
+FROM nuxeo:<span style="">$</span>{NUXEO_VERSION}
+ARG CLID
+ARG CONNECT_URL
+USER root
+COPY install-packages.sh /
+RUN chmod g+rwx,o+rx /install-packages.sh
+<span style="">#</span> Install local <span style="font-weight:bold">package</span> of xyz
+COPY --chown=900:0 /packages/xyzMPlocal.zip <span style="">$</span>NUXEO_HOME/local-packages/xyzMPlocal.zip
+RUN /install-packages.sh --offline <span style="">$</span>NUXEO_HOME/local-packages/xyzMPlocal.zip
+<span style="">#</span> Install remote <span style="font-weight:bold">package</span> of Nuxeo WebUI and Nuxeo Drive
+RUN /install-packages.sh --clid <span style="">$</span>{CLID} --connect-url <span style="">$</span>{CONNECT_URL} nuxeo-web-ui nuxeo-drive
+<span style="">#</span> Cleanup
+<span style="">#</span>RUN rm -rf <span style="">$</span>NUXEO_HOME/local-packages
+COPY /path/to/my-configuration.properties /etc/nuxeo/conf.d/my-configuration.properties
+RUN yum -y localinstall --nogpgcheck https:<span style="font-style:italic">//mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+</span><span style="font-style:italic"></span>RUN yum -y install ffmpeg
+User 900
+</code></pre></div><p>Coming next:</p>
+<ul>
+<li>docker-compose</li>
+<li>creating a test suite for docker-based dev environments</li>
+<li>containerized development environments</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+
+    </main>
+
+    
+      
+      <script src="/eikkaj/js/coder.min.03b17769f4f91ae35667e1f2a1ca8c16f50562576cf90ff32b3179926914daa5.js" integrity="sha256-A7F3afT5GuNWZ&#43;HyocqMFvUFYlds&#43;Q/zKzF5kmkU2qU="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+  </body>
+
+</html>

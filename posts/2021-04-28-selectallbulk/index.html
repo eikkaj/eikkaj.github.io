@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="eikcaj sweet">
+    <meta name="description" content="How to select all documents from search and send to bulk action">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to select all documents from search and send to bulk action"/>
+<meta name="twitter:description" content="How to select all documents from search and send to bulk action"/>
+
+    <meta property="og:title" content="How to select all documents from search and send to bulk action" />
+<meta property="og:description" content="How to select all documents from search and send to bulk action" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://eikkajh.github.io/eikkaj/posts/2021-04-28-selectallbulk/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-28T00:00:00+00:00" />
+
+
+
+    <title>
+  How to select all documents from search and send to bulk action · eikcaj sweet
+</title>
+
+    
+      <link rel="canonical" href="https://eikkajh.github.io/eikkaj/posts/2021-04-28-selectallbulk/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/eikkaj/css/coder.min.5f31841db3150542181a4d03fff5b261923a7b76fe13fe6d45287cb74aa3e67f.css" integrity="sha256-XzGEHbMVBUIYGk0D//WyYZI6e3b&#43;E/5tRSh8t0qj5n8=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/eikkaj/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/eikkaj/img/favicon.jpeg" sizes="32x32">
+    <link rel="icon" type="image/png" href="/eikkaj/img/favicon.jpeg" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/eikkaj/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/eikkaj/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.2/twemoji.min.js"
+        integrity="sha384-wyB/MspSJ/r2bT2kCj44qtsYRYlpzO2oAPhRj5myrWD63dt6qWv4x8AZe7Fl3K3b" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.88.1" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/eikkaj">
+      eikcaj sweet
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/about/">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/contact/">Contact</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/photography/">Photography</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/eikkaj/resume/">Resume</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://eikkajh.github.io/eikkaj/posts/2021-04-28-selectallbulk/">
+              How to select all documents from search and send to bulk action
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-04-28T00:00:00Z'>
+                April 28, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/eikkaj/tags/hello-world/">hello world</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/code/">code</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/open-source/">open source</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/devrel/">devrel</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/women-in-tech/">women in tech</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/developer-relations/">developer relations</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/advocacy/">advocacy</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/tech/">tech</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/data-privacy/">data privacy</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/software-engineer/">software engineer</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/docker/">docker</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/eikkaj/tags/nuxeo/">nuxeo</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+        <p>Hey all, I was recently asked what the best way was to implement a &ldquo;Select All&rdquo; type of functionality in the Nuxeo Web UI such that all documents returned in a search could be sent to a particular bulk action. This is actually something on the <a href="https://doc.nuxeo.com/nxdoc/web-ui-roadmap/">Nuxeo roadmap</a> to be implemented officially, but meanwhile, I figured I&rsquo;d show a quick workaround. Select All currently doesn&rsquo;t exist because of the challenges around selecting all of the checkboxes in the results view when it is a lazily load infinite scrolling list. De-selecting specific items may also present challenges. My solution avoids the visual application of actually selecting the checkboxes and I&rsquo;ve simply added a button in the UI that takes all of the results of the page provider and sends them to a Bulk Action.</p>
+<p><a href="https://github.com/nuxeo/nuxeo-studio-community-cookbook/tree/master/modules/nuxeo/select-all-bulk-action">Check out the git repo for selecting all documents from search and sending to a bulk action</a></p>
+<p>In my example, there is very basic configuration done in Studio - mainly I have created an extremely simple Page Provider with one predicate: <code>dc:title</code>. I&rsquo;ve scaffolded the search form and results layouts. The real customization comes in the results layout.</p>
+<p>Essentially, I&rsquo;ve added a few components to my search results form to accomplish everything:
+1- I&rsquo;ve embedded a <code>nuxeo-operation-button</code> at the top of my <code>search-results</code> tied to the <code>Bulk.RunAction</code> operation.
+2- I&rsquo;ve embedded a <code>nuxeo-page-provider</code> element in the UI which will be fed to the <code>Bulk.RunAction</code> operation
+3- I&rsquo;ve created a dialog that will pop-up when a user presses on the
+<code>nuxeo-operation-button</code> to confirm the bulk action and trigger it.</p>
+<p>In my example, the <code>nuxeo-operation-button</code> uses a checkmark icon:
+<img src="/images/0428/checkmark.png" alt="checkmark"></p>
+<p>When the user presses the checkmark, a dialog will appear:
+<img src="/images/0428/dialog.png" alt="dialog"></p>
+<p>Here&rsquo;s the UI source code that accomplishes this:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;nuxeo-operation-button id=&#34;bulkRunAction&#34; operation=&#34;Bulk.RunAction&#34; input=&#34;[[nxProvider]]&#34; notification=&#34;All results in this search were sent to be exported to csv&#34; event=&#34;document-updated&#34;&gt;&lt;/nuxeo-operation-button&gt;
+
+    &lt;div class=&#34;action&#34; on-tap=&#34;_toggleDialog&#34;&gt;
+      &lt;paper-icon-button id=&#34;bt&#34; icon=&#34;icons:check&#34;&gt;&lt;/paper-icon-button&gt;
+    &lt;/div&gt;
+
+    &lt;nuxeo-page-provider id=&#34;nxProvider&#34;
+                         provider=&#34;MySearch&#34;
+                         page-size=&#34;40&#34;
+                         params=&#34;[[params]]&#34;
+                         schemas=&#34;dublincore,common,uid,file&#34;
+                         headers=&#39;{ &#34;X-NXfetch.document&#34;: &#34;properties&#34;, &#34;X-NXtranslate.directoryEntry&#34;: &#34;label&#34; }&#39;
+                         fetch-aggregates&gt;
+    &lt;/nuxeo-page-provider&gt;
+
+    &lt;nuxeo-dialog id=&#34;dialog&#34; on-iron-overlay-closed=&#34;&#34; with-backdrop&gt;
+      &lt;div class=&#34;content&#34;&gt;
+        &lt;h2&gt;Export All Documents Returned From Search&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;div class=&#34;buttons&#34;&gt;
+        &lt;paper-button dialog-dismiss=&#34;&#34;&gt;Cancel&lt;/paper-button&gt;
+        &lt;paper-button dialog-confirm=&#34;&#34; class=&#34;primary&#34; on-tap=&#34;_doAction&#34;&gt;Export to CSV&lt;/paper-button&gt;
+      &lt;/div&gt;
+    &lt;/nuxeo-dialog&gt;
+</code></pre></div><p>So to summarize, I&rsquo;m going to send all of the results of the executed search to the <code>#bulkRunAction</code> operation I&rsquo;ve embedded in my <code>search-results</code> form. I added the <code>nuxeo-page-provider</code> to the UI because the <code>Bulk.RunAction</code> operation will take that as input. In addition to the page provider, <code>Bulk.RunAction</code> will accept <code>namedParameters</code> in its input parameters. This is how we can pass the parameters utilized to execute the search to the bulk action, such as a predicate or an aggregate selected. This is all accomplished in the <code>doAction</code> function I&rsquo;ve written, which as you can see, is triggered when a user presses the confirm button in the dialog. You will also notice that I&rsquo;ve essentially hard-coded what bulk action is going to ne executed (CSV Export). This could obviously be far more customizable.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">_doAction: function() {
+	// hack to pull the parameters the user selected in the search-form to execute the search in the UI
+   var ppParams = document.querySelector(&#34;nuxeo-app&#34;).root.querySelector(&#34;#drawerPanel&#34;).querySelector(&#34;div[slot=drawer]&#34;).querySelector(&#34;#drawer-pages&#34;).querySelector(&#34;nuxeo-search-form[name=mynewsearch]&#34;).params;
+      
+   ppParams = JSON.stringify(ppParams);
+
+   this.$.bulkRunAction.params = {
+    action: &#39;csvExport&#39;, 
+    providerName: &#39;MySearch&#39;,
+    namedParameters: ppParams
+      };
+
+    this.$.bulkRunAction._execute();
+    },
+
+    _toggleDialog: function() {
+      this.$.dialog.toggle();
+    }
+</code></pre></div><p>Curious to learn more about the <code>Bulk.RunAction</code> operation? Check out the doc here: <a href="https://explorer.nuxeo.com/nuxeo/site/distribution/Nuxeo%20Platform-2021/viewOperation/Bulk.RunAction">https://explorer.nuxeo.com/nuxeo/site/distribution/Nuxeo%20Platform-2021/viewOperation/Bulk.RunAction</a></p>
+<p>Happy Coding!</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+
+    </main>
+
+    
+      
+      <script src="/eikkaj/js/coder.min.03b17769f4f91ae35667e1f2a1ca8c16f50562576cf90ff32b3179926914daa5.js" integrity="sha256-A7F3afT5GuNWZ&#43;HyocqMFvUFYlds&#43;Q/zKzF5kmkU2qU="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+  </body>
+
+</html>
