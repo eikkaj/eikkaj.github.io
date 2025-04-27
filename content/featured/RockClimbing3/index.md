@@ -1,5 +1,5 @@
 ---
-date: '4/1/2025'
+date: 2025-04-01
 title: 'Mental Resiliency in Rock Climbing'
 cover: './IMG_6407.jpg'
 external: 'https://eikkaj.github.io/'
