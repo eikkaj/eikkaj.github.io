@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://eikkaj.github.io/sitemap-index.xml
+Host: https://eikkaj.github.io
